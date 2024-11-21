@@ -1190,6 +1190,67 @@ export async function goToBed(bot) {
     return true;
 }
 
+export async function till(bot, x, y, z) {
+    /**
+     * Till the ground at the given position and plant the given seed type.
+     * @param {MinecraftBot} bot, reference to the minecraft bot.
+     * @param {number} x, the x coordinate to till.
+     * @param {number} y, the y coordinate to till.
+     * @param {number} z, the z coordinate to till.
+     * @returns {Promise<boolean>} true if the ground was tilled, false otherwise.
+     * @example
+     * let position = world.getPosition(bot);
+     * await skills.till(bot, position.x, position.y - 1, position.z);
+     **/
+    console.log(x, y, z)
+    x = Math.round(x);
+    y = Math.round(y);
+    z = Math.round(z);
+	console.log(x, y, z);
+    let block = bot.blockAt(new Vec3(x, y-1, z));
+    console.log(x, y-1, z);/*
+    if (block.name !== 'grass_block' && block.name !== 'dirt' && block.name !== 'farmland') {
+        log(bot, `Cannot till ${block.name}, must be grass_block or dirt.`);
+        return false;
+    }
+	
+	
+	
+    let above = bot.blockAt(new Vec3(x, y+1, z));
+    if (above.name !== 'air') {
+        log(bot, `Cannot till, there is ${above.name} above the block.`);
+        return false;
+    }
+    // if distance is too far, move to the block
+    if (bot.entity.position.distanceTo(block.position) > 4.5) {
+        let pos = block.position;
+        bot.pathfinder.setMovements(new pf.Movements(bot));
+        await bot.pathfinder.goto(new pf.goals.GoalNear(pos.x, pos.y, pos.z, 4));
+    }
+    if (block.name !== 'farmland') {
+        
+        if (!hoe) {
+            log(bot, `Cannot till, no hoes.`);
+            return false;
+        }*/
+		
+		//Check if it's farmland
+		if(block.name==='farmland')
+			log(bot,`x:${x.toFixed(1)}, y:${(y-1).toFixed(1)}, z:${z.toFixed(1)} already tilled!`);
+		
+		//Equip the hoe
+		let hoe = bot.inventory.items().find(item => item.name.includes('hoe'));
+        await bot.equip(hoe, 'hand');
+		//Till the land
+        await bot.activateBlock(block);
+        log(bot, `Tilled block x:${x.toFixed(1)}, y:${(y-1).toFixed(1)}, z:${z.toFixed(1)}.`);
+    //}
+    
+    return true;
+}
+
+
+
 export async function tillAndSow(bot, x, y, z, seedType=null) {
     /**
      * Till the ground at the given position and plant the given seed type.
@@ -1208,7 +1269,7 @@ export async function tillAndSow(bot, x, y, z, seedType=null) {
     y = Math.round(y);
     z = Math.round(z);
     let block = bot.blockAt(new Vec3(x, y, z));
-    console.log(x, y, z)
+    console.log(x, y, z);
     if (block.name !== 'grass_block' && block.name !== 'dirt' && block.name !== 'farmland') {
         log(bot, `Cannot till ${block.name}, must be grass_block or dirt.`);
         return false;

@@ -374,4 +374,21 @@ export const actionsList = [
     //         return 'Set npc goal: ' + agent.npc.data.curr_goal.name;
     //     }
     // },
+	{
+        name: '!till',
+        description: 'Tills the ground.',
+        /*params: {
+            'mode_name': { type: 'string', description: 'The name of the mode to enable.' },
+            'on': { type: 'boolean', description: 'Whether to enable or disable the mode.' }
+        },*/
+        perform: async function (agent, x, y, z) {
+			let pos=agent.bot.entity.position;
+			await skills.till(agent.bot,pos.x,pos.y,pos.z);
+
+        }
+    },
+	
+	
+	
+	
 ];
